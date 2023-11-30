@@ -1,0 +1,12 @@
+MarkupSafe
+packaging
+torch==2.0.1
+torchvision
+torchaudio
+transformers
+matplotlib
+jupyter
+scikit-learn
+colorama
+nltk
+conllu

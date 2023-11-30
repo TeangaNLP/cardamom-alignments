@@ -1,0 +1,7 @@
+from python:3.11
+RUN apt-get update -y
+RUN apt-get install\
+		tmux -y
+WORKDIR /app
+COPY ./docker_setup/working_requirements.txt /app/docker_setup/working_requirements.txt
+RUN pip3 install -U -r /app/docker_setup/working_requirements.txt 
