@@ -1,0 +1,8 @@
+site_name: LingoAlign
+theme:
+  name: readthedocs
+  highlightjs: true
+  hljs_languages:
+    - python
+    - yaml
+    - rust
