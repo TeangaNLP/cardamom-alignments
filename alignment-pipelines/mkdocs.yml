@@ -1,0 +1,13 @@
+site_name: alignments-pipelines
+
+
+theme:
+  name: material
+plugins:
+ - search
+ - mkdocstrings:
+    handlers:
+      python:
+        paths: [alignment_pipelines]  # actually not needed, default
+
+

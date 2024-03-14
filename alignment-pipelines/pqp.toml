@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "cardamom-alignments"
+name = "cardamom_alignments"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["Bernardo <bernardo.stearns@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
@@ -12,6 +12,12 @@ scipy = "^1.11.3"
 torch = "2.0.1"
 simalign = "^0.4"
 
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.5.3"
+mkdocstrings = "^0.24.1"
+mkdocstrings-python = "^1.9.0"
+mkdocs-material = "^9.5.13"
 
 [build-system]
 requires = ["poetry-core"]
