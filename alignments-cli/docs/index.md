@@ -1,7 +1,7 @@
 # Welcome to LingoAligner 
 
 We implement tools for aligning sentences between different languages
-	- main word alignment
+	- mainly word alignment
 
 ## Install 
 

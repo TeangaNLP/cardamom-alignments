@@ -1,4 +1,4 @@
-# A command line tool for running word alignments for two paralell sentences
+# A python command line tool for running word alignments for two paralell sentences
 Given two aligned sentences in different languages, align word by word between then
 
 
