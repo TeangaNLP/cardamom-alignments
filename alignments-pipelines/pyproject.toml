@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "alignment-pipelines"
+version = "0.1.0"
+description = ""
+authors = ["bernardo"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+numpy = "^1.26.4"
+torch = "^2.2.1"
+simalign = "^0.4"
+
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.5.3"
+mkdocstrings = "^0.24.1"
+mkdocstrings-python = "^1.9.0"
+mkdocs-material = "^9.5.13"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
