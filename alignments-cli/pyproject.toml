@@ -6,7 +6,9 @@ authors = ["bernardo"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.9"
+wasmer = "^1.1.0"
+wasmer-compiler-cranelift = "^1.1.0"
 
 
 [tool.poetry.group.docs.dependencies]
