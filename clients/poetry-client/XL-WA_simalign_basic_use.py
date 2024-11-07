@@ -1,5 +1,6 @@
 from alignment_pipelines import SimAlignPipeline
 from dataclasses import dataclass, asdict
+from collections import defaultdict
 import os
 
 @dataclass
@@ -32,12 +33,12 @@ class SimAlignConfig:
 
         if self.__getattribute__('OUT_FP') is None:
            filename = self.__getattribute__('INP_FP').split(os.sep)[-1] # assumes filenames will not end with "/"(os.sep)
-           output_fp = f"{self.__getattribute__('OUT_FOLDER')}/{filename}"
+           output_fp = f"{self.__getattribute__('OUT_FOLDER')}{filename}"
            self.__setattr__('OUT_FP', output_fp)
         
 config_dict = {
         "INP_FP": '../../data/XL-WA/data/pt/test.tsv', 
-        "OUT_FOLDER": './outputs/XL-WA/data/pt/test.tsv', 
+        "OUT_FOLDER": './outputs/XL-WA/data/pt/', 
         "MODEL": "bert",
         "TOKEN_TYPE": "bpe",
         "MATCHING_METHODS": "mai",
@@ -46,25 +47,44 @@ simAlignConfig = SimAlignConfig(**config_dict)
 
 # making an instance of our model.
 # You can specify the embedding model and all alignment settings in the constructor.
-pipeline = SimAlignPipeline(**asdict(simAlignConfig))
+pipeline = SimAlignPipeline(config=simAlignConfig)
+models = defaultdict(
+        lambda: {
+            "model_id": None,
+            "alignments":{},
+            }
+        )
 
 # The source and target sentences should be tokenized to words.
 with open(simAlignConfig.INP_FP) as inpf:
     for line in inpf:
         print(line)
         src, trg, gold = line.split("\t")
+        parallel_sent_pair_id = f"{src}-{trg}" 
         src_sentence_tokens = src.split(" ")
         trg_sentence_tokens = trg.split(" ")
         print(src_sentence_tokens, trg_sentence_tokens)
         alignments = pipeline(src_sentence_tokens, trg_sentence_tokens)
-
+        
+        print(alignments)
         for matching_method in alignments:
+            model_strategy_id = f"{simAlignConfig.MODEL}-{simAlignConfig.TOKEN_TYPE}-{matching_method}"
             print(matching_method, ":", alignments[matching_method])
+            models[model_strategy_id]["model_id"] = model_strategy_id
+            models[model_strategy_id]["alignments"][parallel_sent_pair_id] = alignments[matching_method]
+        print(models)
         print(gold)
-        input()
     # The output is a dictionary with different matching methods.
     # Each method has a list of pairs indicating the indexes of aligned words (The alignments are zero-indexed).
-# Expected output:
-# mwmf (Match): [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4)]
-# inter (ArgMax): [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4)]
-# itermax (IterMax): [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4)]
+    # Expected output:
+    # mwmf (Match): [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4)]
+    # inter (ArgMax): [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4)]
+    # itermax (IterMax): [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4)]
+    for model_id, model_data in models.items():
+        m = model_data
+        model_output_fp = f'{simAlignConfig.OUT_FP}-{model_id}.tsv'
+        with open(model_output_fp,"w") as outf:
+            for parallel_sent_pair_id, alignments_lst in m["alignments"].items():
+                alignments_str = " ".join([f"{sIdx}-{tIdx}" for sIdx, tIdx in alignments_lst]) 
+                tsv_row=f'{parallel_sent_pair_id}\t{alignments_str}\n'
+                outf.write(tsv_row)
