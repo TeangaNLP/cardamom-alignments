@@ -1,8 +1,8 @@
-from simalign import SentenceAligner
+from alignments_pipeline import SimAlignPipeline
 
 # making an instance of our model.
 # You can specify the embedding model and all alignment settings in the constructor.
-myaligner = SentenceAligner(model="bert", token_type="bpe", matching_methods="mai")
+pipeline = SimAlignPipeline(model="bert", token_type="bpe", matching_methods="mai")
 
 # The source and target sentences should be tokenized to words.
 with open('./data/pt/test.tsv') as inpf:
@@ -11,7 +11,7 @@ with open('./data/pt/test.tsv') as inpf:
         src_sentence = src.split(" ")
         trg_sentence = trg.split(" ")
         print(src_sentence, trg_sentence)
-        alignments = myaligner.get_word_aligns(src_sentence, trg_sentence)
+        alignments = pipeline.run(src_sentence, trg_sentence)
 
         for matching_method in alignments:
             print(matching_method, ":", alignments[matching_method])
