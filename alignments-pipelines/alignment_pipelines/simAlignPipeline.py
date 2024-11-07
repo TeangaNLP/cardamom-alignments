@@ -44,32 +44,18 @@ class SimAlignPipeline:
         preprocess the parallel sentences
         outputting alignments for each parallel pair
     '''
-    def __init__(self):
-        self.aligner = SentenceAligner(model="bert", token_type="bpe", matching_methods="mai")
+    def __init__(self, model, token_type, matching_methods, **kwargs):
+        self.aligner = SentenceAligner(model=model, token_type=token_type, matching_methods=matching_methods)
 
+    def __call__(self, src_sentence_tokens, trg_sentence_tokens):
+        self.run(src_sentence_tokens, trg_sentence_tokens)
 
-    def run(self, sentences_fp):
-        # making an instance of our model.
-        # You can specify the embedding model and all alignment settings in the constructor.
-
-        # The source and target sentences should be tokenized to words.
-        with open(sentences_fp) as inpf:
-            for line in inpf:
-                line = line.strip()
-                src_sentence, trg_sentence = line.split('|||')
-
-                # The output is a dictionary with different matching methods.
-                # Each method has a list of pairs indicating the indexes of aligned words (The alignments are zero-indexed).
-                alignments = self.aligner.get_word_aligns(src_sentence, trg_sentence)
-
-                print(src_sentence, trg_sentence)
-                for matching_method in alignments:
-                    print(matching_method, ":", alignments[matching_method])
-                input()
-                # Expected output:
-                # mwmf (Match): [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4)]
-                # inter (ArgMax): [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4)]
-                # itermax (IterMax): [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4)] 
+    def run(self, src_sentence_tokens, trg_sentence_tokens):
+        alignments = self.aligner.get_word_aligns(src_sentence_tokens, trg_sentence_tokens)
+        print(src_sentence_tokens, trg_sentence_tokens)
+        for matching_method in alignments:
+            print(matching_method, ":", alignments[matching_method])
+        input()
 
 
 
