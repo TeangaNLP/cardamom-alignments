@@ -1,10 +1,10 @@
-from alignment_pipelines import SimAlignPipeline
+from alignment_pipelines import AwesomeAlignPipeline
 from dataclasses import dataclass, asdict
 from collections import defaultdict
 import os
 
 @dataclass
-class SimAlignConfig:
+class AwesomeAlignConfig:
     INP_FP: str = None
     OUT_FOLDER: str = None
     OUT_FP: str = None

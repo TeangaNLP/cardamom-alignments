@@ -1,6 +1,6 @@
 impot torch
 import transformers
-import itertoolsr
+import itertool
 
 class AwesomeAlignPipeline:
     def __init__(self, sentences_fp):
