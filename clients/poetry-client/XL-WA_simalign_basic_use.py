@@ -5,6 +5,7 @@ import os
 
 @dataclass
 class SimAlignConfig:
+    TOOL_NAME: str = "simalign"
     INP_FP: str = None
     OUT_FOLDER: str = None
     OUT_FP: str = None
@@ -76,7 +77,7 @@ if __name__ == "__main__":
                 
                 print(alignments)
                 for matching_method in alignments:
-                    model_strategy_id = f"{simAlignConfig.MODEL}-{simAlignConfig.TOKEN_TYPE}-{matching_method}"
+                    model_strategy_id = f"{simAlignConfig.TOOL_NAME}-{simAlignConfig.MODEL}-{simAlignConfig.TOKEN_TYPE}-{matching_method}"
                     print(matching_method, ":", alignments[matching_method])
                     models[model_strategy_id]["model_id"] = model_strategy_id
                     models[model_strategy_id]["alignments"][parallel_sent_pair_id] = alignments[matching_method]
