@@ -38,13 +38,13 @@ class AlignmentMetrics:
         """Calculate precision for alignments."""
         true_positives = len(predicted & reference)
         false_positives = len(predicted - reference)
-        return true_positives / (true_positives + false_positives) if true_positives + false_positives > 0 else 0.0
+        return true_positives / len(predicted) if len(predicted) > 0 else 0.0 
 
     def calculate_recall(self, predicted, reference):
         """Calculate recall for alignments."""
         true_positives = len(predicted & reference)
         false_negatives = len(reference - predicted)
-        return true_positives / (true_positives + false_negatives) if true_positives + false_negatives > 0 else 0.0
+        return true_positives / len(reference) if len(reference)> 0 else 0.0
 
     def calculate_f1_score(self, precision, recall):
         """Calculate F1 score from precision and recall."""
