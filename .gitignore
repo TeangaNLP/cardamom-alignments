@@ -6,3 +6,4 @@ alignments-cli/alignments_cli/__pycache__
 clients/pip-client/venv
 alignments-pipelines/alignment_pipelines/__pycache__
 fast_align
+clients/poetry-client/outputs/XL-WA/data
