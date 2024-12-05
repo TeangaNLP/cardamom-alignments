@@ -57,33 +57,74 @@ class AlignmentMetrics:
         total_reference = len(reference)
         return 1 - (2 * true_positives) / (total_predicted + total_reference) if (total_predicted + total_reference) > 0 else 1.0
 
-    def evaluate(self):
-        """
-        Evaluate the precision, recall, F1 score, and AER across all sentence pairs.
-        
-        :return: Dictionary containing the average precision, recall, F1 score, and AER.
-        """
-        total_precision, total_recall, total_f1, total_aer = 0.0, 0.0, 0.0, 0.0
-        num_sentences = len(self.predicted_alignments)
+    def calculate_micro_average(self, predicted_alignments, reference_alignments):
+        """Calculate micro average precision, recall, F1 score, and AER."""
+        total_true_positives = total_false_positives = total_false_negatives = 0
+        total_predicted = total_reference = 0
 
-        for predicted, reference in zip(self.predicted_alignments, self.reference_alignments):
-            # Calculate metrics for each sentence pair
+        for predicted, reference in zip(predicted_alignments, reference_alignments):
+            true_positives = len(predicted & reference)
+            false_positives = len(predicted - reference)
+            false_negatives = len(reference - predicted)
+
+            total_true_positives += true_positives
+            total_false_positives += false_positives
+            total_false_negatives += false_negatives
+            total_predicted += len(predicted)
+            total_reference += len(reference)
+
+        precision = total_true_positives / total_predicted if total_predicted > 0 else 0.0
+        recall = total_true_positives / total_reference if total_reference > 0 else 0.0
+        f1_score = self.calculate_f1_score(precision, recall)
+        aer = self.calculate_aer(
+            set(pair for alignment in predicted_alignments for pair in alignment),
+            set(pair for alignment in reference_alignments for pair in alignment)
+        )
+
+        return {
+            "precision": precision,
+            "recall": recall,
+            "f1_score": f1_score,
+            "aer": aer
+        }
+
+    def calculate_macro_average(self, predicted_alignments, reference_alignments):
+        """Calculate macro average precision, recall, F1 score, and AER."""
+        total_precision, total_recall, total_f1, total_aer = 0.0, 0.0, 0.0, 0.0
+        num_sentences = len(predicted_alignments)
+
+        for predicted, reference in zip(predicted_alignments, reference_alignments):
             precision = self.calculate_precision(predicted, reference)
             recall = self.calculate_recall(predicted, reference)
             f1_score = self.calculate_f1_score(precision, recall)
             aer = self.calculate_aer(predicted, reference)
 
-            # Accumulate metrics
             total_precision += precision
             total_recall += recall
             total_f1 += f1_score
             total_aer += aer
 
-        # Calculate average metrics across all sentence pairs
         return {
             "precision": total_precision / num_sentences,
             "recall": total_recall / num_sentences,
             "f1_score": total_f1 / num_sentences,
             "aer": total_aer / num_sentences
+        }
+
+    def evaluate(self):
+        """
+        Evaluate the precision, recall, F1 score, and AER across all sentence pairs.
+        
+        :return: Dictionary containing the micro and macro averages of precision, recall, F1 score, and AER.
+        """
+        # Calculate micro average
+        micro_avg = self.calculate_micro_average(self.predicted_alignments, self.reference_alignments)
+
+        # Calculate macro average
+        macro_avg = self.calculate_macro_average(self.predicted_alignments, self.reference_alignments)
+
+        return {
+            "micro_average": micro_avg,
+            "macro_average": macro_avg
         }
 

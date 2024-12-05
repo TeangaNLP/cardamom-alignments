@@ -6,3 +6,5 @@ alignments-cli/alignments_cli/__pycache__
 clients/pip-client/venv
 alignments-pipelines/alignment_pipelines/__pycache__
 clients/poetry-client/outputs
+clients/poetry-client/outputs
+clients/poetry-client/references
