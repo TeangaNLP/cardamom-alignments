@@ -95,5 +95,5 @@ if __name__ == "__main__":
                 with open(model_output_fp,"w") as outf:
                     for parallel_sent_pair_id, alignments_lst in m["alignments"].items():
                         alignments_str = " ".join([f"{sIdx}-{tIdx}" for sIdx, tIdx in alignments_lst]) 
-                        tsv_row=f'{parallel_sent_pair_id}\t{alignments_str}\n'
+                        tsv_row=f'{src}\t{trg}\t{alignments_str}\n'
                         outf.write(tsv_row)

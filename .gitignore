@@ -7,3 +7,5 @@ clients/pip-client/venv
 alignments-pipelines/alignment_pipelines/__pycache__
 fast_align
 clients/poetry-client/outputs/XL-WA/data
+clients/poetry-client/outputs/XL-WA/data
+giza-pp
