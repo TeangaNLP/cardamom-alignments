@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-alignments-cli = {path = "../../alignments-pipelines"}
+alignment-pipelines = {path = "../../alignments-pipelines", develop = true}
 
 
 [build-system]
