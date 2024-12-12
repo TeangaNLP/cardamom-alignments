@@ -9,3 +9,6 @@ fast_align
 clients/poetry-client/outputs/XL-WA/data
 clients/poetry-client/outputs/XL-WA/data
 giza-pp
+clients/poetry-client/outputs
+clients/poetry-client/outputs
+clients/poetry-client/references
