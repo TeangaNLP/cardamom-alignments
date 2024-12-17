@@ -1,5 +1,5 @@
-FASTALIGN_BIN=./fast_align/build/fast_align
-ATOOLS_BIN=./fast_align/build/atools
+FASTALIGN_BIN=./fast_align/fast_align
+ATOOLS_BIN=./fast_align/atools
 FILENAME=example
 FORWARD_OUTFNAME=forward.alig
 REVERSE_OUTFNAME=reverse.alig
