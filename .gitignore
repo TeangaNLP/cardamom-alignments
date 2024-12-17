@@ -13,3 +13,6 @@ clients/poetry-client/outputs
 clients/poetry-client/outputs
 clients/poetry-client/references
 tools/wasi-sdk-24.0-x86_64-linux
+tools/p1
+tools/forward.alig
+tools/wasi-sdk-24.0-x86_64-linux.tar.gz
